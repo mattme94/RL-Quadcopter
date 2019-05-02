@@ -111,7 +111,10 @@ class PhysicsSim():
             V = self.prop_wind_speed[prop_number]
             D = self.propeller_size
             n = rotor_speeds[prop_number]
-            J = V / n * D
+            if n==0:
+                J=0
+            else:
+                J = V / n * D
             # From http://m-selig.ae.illinois.edu/pubs/BrandtSelig-2011-AIAA-2011-1255-LRN-Propellers.pdf
             C_T = max(.12 - .07*max(0, J)-.1*max(0, J)**2, 0)
             thrusts.append(C_T * self.rho * n**2 * D**4)
@@ -122,6 +125,7 @@ class PhysicsSim():
         thrusts = self.get_propeler_thrust(rotor_speeds)
         self.linear_accel = self.get_linear_forces(thrusts) / self.mass
 
+        self.prevPose=self.pose[:3] 
         position = self.pose[:3] + self.v * self.dt + 0.5 * self.linear_accel * self.dt**2
         self.v += self.linear_accel * self.dt
 
