@@ -114,7 +114,7 @@ class PhysicsSim():
             if n==0:
                 J=0
             else:
-                J = V / n * D
+                J = V / abs(n * D)
             # From http://m-selig.ae.illinois.edu/pubs/BrandtSelig-2011-AIAA-2011-1255-LRN-Propellers.pdf
             C_T = max(.12 - .07*max(0, J)-.1*max(0, J)**2, 0)
             thrusts.append(C_T * self.rho * n**2 * D**4)
